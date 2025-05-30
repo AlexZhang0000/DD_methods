@@ -6,7 +6,7 @@ pip install -r requirements.txt
 for IPC in 1 10 50
 do
   echo "🔁 Synthesizing CIFAR10 with DM | IPC=$IPC..."
-  python main_wandb.py \
+  python main.py \
     --dataset CIFAR10 \
     --model ConvNet \
     --ipc $IPC \
