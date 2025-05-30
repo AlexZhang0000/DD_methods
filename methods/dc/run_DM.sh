@@ -1,42 +1,11 @@
-#!/bin/bash
+# DM: IPC=1
+python main_DM.py --dataset CIFAR10 --model ConvNet --ipc 1 --init real --lr_img 1 \
+  --dsa_strategy color_crop_cutout_flip_scale_rotate --save_path distilled_results/DM/CIFAR10/ipc1
 
-echo "🟩 Installing dependencies..."
-pip install -r requirements.txt
+# DM: IPC=10
+python main_DM.py --dataset CIFAR10 --model ConvNet --ipc 10 --init real --lr_img 1 \
+  --dsa_strategy color_crop_cutout_flip_scale_rotate --save_path distilled_results/DM/CIFAR10/ipc10
 
-for IPC in 1 10 50
-do
-  echo "🔁 Synthesizing CIFAR10 with DM | IPC=$IPC..."
-  python main.py \
-    --dataset CIFAR10 \
-    --model ConvNet \
-    --ipc $IPC \
-    --init real \
-    --dsa_strategy color_crop_cutout_flip_scale_rotate \
-    --lr_img 1 \
-    --num_exp 1 \
-    --num_eval 1
-done
-
-for IPC in 1 10 50
-do
-  echo "🧪 Evaluating synthetic IPC=$IPC using model trained on real CIFAR10..."
-  python train.py \
-    --train_dataset=./data/CIFAR10 \
-    --test_dataset=./result/res_DM_CIFAR10_ConvNet_${IPC}ipc.pt \
-    --model=ConvNet \
-    --mode=test_syn \
-    --epochs=100
-done
-
-for IPC in 1 10 50
-do
-  echo "🧪 Training on synthetic IPC=$IPC, evaluating on real CIFAR10..."
-  python train.py \
-    --train_dataset=./result/res_DM_CIFAR10_ConvNet_${IPC}ipc.pt \
-    --test_dataset=./data/CIFAR10 \
-    --model=ConvNet \
-    --mode=test_real \
-    --epochs=300
-done
-
-echo "✅ All steps finished."
+# DM: IPC=50
+python main_DM.py --dataset CIFAR10 --model ConvNet --ipc 50 --init real --lr_img 1 \
+  --dsa_strategy color_crop_cutout_flip_scale_rotate --save_path distilled_results/DM/CIFAR10/ipc50
