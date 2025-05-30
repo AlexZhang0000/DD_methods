@@ -578,7 +578,7 @@ def rand_saturation(x, param):
     x_mean = x.mean(dim=1, keepdim=True)
     set_seed_DiffAug(param)
     rands = torch.rand(x.size(0), 1, 1, 1, dtype=x.dtype, device=x.device)
-    if param.Siamese:  # Siamese augmentation:
+    if param.Siamese:  # Siamese augmentation: 
         rands[:] = rands[0]
     x = (x - x_mean) * (rands * ratio) + x_mean
     return x
@@ -604,8 +604,8 @@ def rand_crop(x, param):
     set_seed_DiffAug(param)
     translation_y = torch.randint(-shift_y, shift_y + 1, size=[x.size(0), 1, 1], device=x.device)
     if param.Siamese:  # Siamese augmentation:
-        translation_x = translation_x[0].clone().repeat(translation_x.shape[0])
-        translation_y = translation_y[0].clone().repeat(translation_y.shape[0])
+        translation_x = translation_x[0].clone()
+        translation_y = translation_y[0].clone()
     grid_batch, grid_x, grid_y = torch.meshgrid(
         torch.arange(x.size(0), dtype=torch.long, device=x.device),
         torch.arange(x.size(2), dtype=torch.long, device=x.device),
