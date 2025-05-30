@@ -626,8 +626,8 @@ def rand_cutout(x, param):
     set_seed_DiffAug(param)
     offset_y = torch.randint(0, x.size(3) + (1 - cutout_size[1] % 2), size=[x.size(0), 1, 1], device=x.device)
     if param.Siamese:  # Siamese augmentation:
-        offset_x[:] = offset_x[0]
-        offset_y[:] = offset_y[0]
+        offset_x[:] = offset_x[0].clone()
+        offset_y[:] = offset_y[0].clone()
     grid_batch, grid_x, grid_y = torch.meshgrid(
         torch.arange(x.size(0), dtype=torch.long, device=x.device),
         torch.arange(cutout_size[0], dtype=torch.long, device=x.device),
