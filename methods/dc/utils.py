@@ -579,7 +579,7 @@ def rand_saturation(x, param):
     set_seed_DiffAug(param)
     rands = torch.rand(x.size(0), 1, 1, 1, dtype=x.dtype, device=x.device)
     if param.Siamese:  # Siamese augmentation: 
-        rands[:] = rands[0]
+        rands[:] = rands[0].clone()
     x = (x - x_mean) * (rands * ratio) + x_mean
     return x
 
