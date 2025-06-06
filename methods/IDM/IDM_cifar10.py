@@ -203,8 +203,8 @@ def main():
 
                     # save the checkpoint of synthetic set with best performance\
                     checkpoint_dir = './checkpoints/{}_ipc_{}_aug_{}_model_{}/'.format(args.dataset, args.ipc, args.aug, model_eval)
-                    if not os.path.exists(checkpoint_dir):
-                        os.mkdir(checkpoint_dir)
+                    os.makedirs(checkpoint_dir, exist_ok=True)
+
                     best_synset_filename = checkpoint_dir + 'acc_{}.pkl'.format(np.mean(accs))
                     if best_acc < np.mean(accs):
                         best_acc = np.mean(accs)
